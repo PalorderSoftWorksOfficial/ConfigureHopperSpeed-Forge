@@ -1,4 +1,4 @@
-# HopperMod — Fabric 1.21.10
+# HopperMod — Fabric
 
 Ändert Hopper-Geschwindigkeit und Item-Menge pro Transfer per Befehl.
 Kein OP-Level nötig — funktioniert direkt in Singleplayer!
