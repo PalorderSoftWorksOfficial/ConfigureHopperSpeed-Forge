@@ -6,6 +6,10 @@ license="GPL-3.0"
 modId="hoppermod"
 version="${version}"
 displayName="HopperMod"
+authors="PalorderSoftWorks 2026 inc."
 description='''
 Configurable hopper speed and transfer amount.
 '''
+
+[[mixins]]
+config="hoppermod.mixins.json"
