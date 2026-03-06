@@ -5,15 +5,15 @@ plugins {
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
-version = project.mod_version
 group = 'com.hoppermod'
+version = project.mod_version
 
 base {
     archivesName = 'hoppermod'
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
     withSourcesJar()
 }
 
@@ -23,6 +23,7 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
+
             mods {
                 hoppermod {
                     source sourceSets.main
@@ -32,6 +33,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
+
             mods {
                 hoppermod {
                     source sourceSets.main
@@ -47,6 +49,9 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+
+    // mixins
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -64,10 +69,10 @@ processResources {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "hoppermod",
-            "Specification-Vendor": "hoppermod",
-            "Implementation-Title": project.name,
-            "Implementation-Version": project.version
+                "Specification-Title": "hoppermod",
+                "Specification-Vendor": "hoppermod",
+                "Implementation-Title": project.name,
+                "Implementation-Version": project.version
         ])
     }
 
