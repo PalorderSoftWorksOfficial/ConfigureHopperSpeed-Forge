@@ -6,24 +6,24 @@ plugins {
 }
 
 group = 'com.hoppermod'
-version = project.mod_version
+version = project.mod_version ?: '1.0.0'
 
 base {
     archivesName = 'hoppermod'
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(17)
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
     withSourcesJar()
 }
 
 minecraft {
+    // Pin to 1.21.11 official mappings
     mappings channel: 'official', version: project.minecraft_version
 
     runs {
         client {
             workingDirectory project.file('run')
-
             mods {
                 hoppermod {
                     source sourceSets.main
@@ -33,7 +33,6 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-
             mods {
                 hoppermod {
                     source sourceSets.main
@@ -50,7 +49,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
 
-    // mixins
+    // Mixin annotation processor
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
@@ -69,10 +68,10 @@ processResources {
 jar {
     manifest {
         attributes([
-                "Specification-Title": "hoppermod",
-                "Specification-Vendor": "hoppermod",
-                "Implementation-Title": project.name,
-                "Implementation-Version": project.version
+            "Specification-Title": "hoppermod",
+            "Specification-Vendor": "hoppermod",
+            "Implementation-Title": project.name,
+            "Implementation-Version": project.version
         ])
     }
 
