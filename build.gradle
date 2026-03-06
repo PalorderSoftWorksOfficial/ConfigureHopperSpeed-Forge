@@ -1,6 +1,8 @@
 plugins {
-    id 'fabric-loom' version '1.11-SNAPSHOT'
+    id 'eclipse'
+    id 'idea'
     id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
 version = project.mod_version
@@ -10,32 +12,75 @@ base {
     archivesName = 'hoppermod'
 }
 
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    withSourcesJar()
+}
+
+minecraft {
+    mappings channel: 'official', version: project.minecraft_version
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            mods {
+                hoppermod {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run')
+            mods {
+                hoppermod {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
 repositories {
+    mavenCentral()
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    minecraft "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }
 
 processResources {
     inputs.property "version", project.version
-    filteringCharset "UTF-8"
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
+
+    filesMatching('META-INF/mods.toml') {
+        expand version: project.version
     }
 }
 
-java {
-    withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
-
 jar {
+    manifest {
+        attributes([
+            "Specification-Title": "hoppermod",
+            "Specification-Vendor": "hoppermod",
+            "Implementation-Title": project.name,
+            "Implementation-Version": project.version
+        ])
+    }
+
     from("LICENSE") {
         rename { "${it}_${project.base.archivesName.get()}" }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+            artifact sourcesJar
+        }
     }
 }
