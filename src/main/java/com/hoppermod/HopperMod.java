@@ -79,7 +79,7 @@ public class HopperMod {
                     );
                     return 1;
                 })
-                .then(Commands.argument("amount", IntegerArgumentType.integer(1, 64))
+                .then(Commands.argument("amount", IntegerArgumentType.integer(1, 9999))
                     .executes(ctx -> {
                         int amount = IntegerArgumentType.getInteger(ctx, "amount");
                         hopperAmount = amount;
