@@ -3,6 +3,7 @@
   "package": "com.hoppermod.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "HopperBlockEntityAccessor",
     "HopperBlockEntityMixin"
   ],
   "injectors": {
